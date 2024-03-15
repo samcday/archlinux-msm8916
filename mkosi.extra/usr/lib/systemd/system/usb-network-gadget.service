@@ -1,0 +1,14 @@
+[Unit]
+Description=USB networking gadget
+After=modprobe@usbfunc:ncm.service
+Wants=modprobe@usbfunc:ncm.service
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/sys/kernel/config/usb_gadget
+ExecStart=/usr/bin/start-usb-gadget.sh
+
+[Install]
+WantedBy=usb-gadget.target

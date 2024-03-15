@@ -1,0 +1,16 @@
+#/bin/bash
+set -uexo pipefail
+
+for package in dracut-sshd-git; do
+    cd aur-pkg/$package
+    set +e
+    env EUID=123 makepkg
+    err="$?"
+    set -e
+
+    if [[ "$err" -gt 0 ]] && [[ "$err" != "13" ]]; then
+        exit 1
+    fi
+
+    cp $package*.pkg.tar.xz $PACKAGEDIR
+done

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -uexo pipefail
+
+#pacman -S --noconfirm systemd-gadget
+pacman -S --noconfirm dracut-sshd-git
