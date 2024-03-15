@@ -51,7 +51,7 @@ I guess I would summarize this rant thusly: postmarketOS is lots of different ef
 
 I would say the valuable aspects of postmarketOS are:
 
- * Mainlining efforts. That is getting drivers for countless mobile devices out of GPL code dumps from ~~awful soulless commercial vampires vendors~~ like Samsung/Qualcomm/etc and into the mainline Linux kernel.
+ * Mainlining efforts. That is getting drivers for countless mobile devices out of GPL code dumps from ~~awful soulless commercial vampires~~ vendors like Samsung/Qualcomm/etc and into the mainline Linux kernel.
  * Bootloader efforts. Making it possible to transitiong from janky vendor code that was only intended to boot into whatever crappy OS they were shoving down their customers throats.
  * Research efforts: continuing to lift the veil on the technical particulars of the myriad Android devices that were yeeted into the market over the last decade or so.
 
