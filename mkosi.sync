@@ -5,6 +5,6 @@ mkdir -p aur-pkg/
 cd aur-pkg/
 
 for package in systemd-gadget dracut-sshd-git; do
-    [[ ! -d aur-pkg/$package ]] && git clone https://aur.archlinux.org/${package}.git || true
+    [[ ! -d $package ]] && git clone https://aur.archlinux.org/${package}.git || true
     pushd $package; git pull; popd
 done

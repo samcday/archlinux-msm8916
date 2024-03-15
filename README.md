@@ -17,11 +17,14 @@ sudo mkosi
 # Explore the image
 sudo mkosi shell
 
-# Flash the image to your device
-fastboot flash userdata image.raw
+# Prepare the image for flashing
+./make-image.sh
 
-# Bootloader is screwy at the moment, force a manual boot.
-./fastboot.sh
+# Flash the image to your device
+fastboot flash userdata image.disk
+
+# Cross your fingers. Hold on to yer butts.
+fastboot reboot
 ```
 
 ## (Potentially) FAQ
