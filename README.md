@@ -45,7 +45,7 @@ There's lots of good reasons, and lots of bad reasons, for why it is this way:
  * pmOS is trying to support a massive range of devices. Everything from potato Chromebooks/feature phones manufactured 10 years ago, to the Steam Deck.
  * pmOS is a scrappy community effort that is still in the infancy stage when compared to established distros like Arch, Debian, Fedora, etc.
 
-Much of the work that contributors are doing behidn the scenes for pmOS is incredible stuff. Without their work, we'd still only be able to install a solid mainline Linux distribution on like, 5 different devices (the Librem, the Pine64 phones and ... well, that's it?).
+Much of the work that contributors are doing behind the scenes for pmOS is incredible stuff. Without their work, we'd still only be able to install a solid mainline Linux distribution on like, 5 different devices (the Librem, the Pine64 phones and ... well, that's it?).
 
 I guess I would summarize this rant thusly: postmarketOS is lots of different efforts. Some of it is extremely valuable, some of it is not and is reinventing the wheel poorly.
 
