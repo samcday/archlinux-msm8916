@@ -20,7 +20,7 @@ sudo mkbootimg \
     --ramdisk $dir/boot/initramfs-6.6.0-msm8916.img \
     --base "0x80000000" \
     --second_offset "0x00f00000" \
-    --cmdline "earlycon rd.retry=30 rd.shell root=UUID=e01dcf94-b2d4-4c0d-901e-7e44d47f360c" \
+    --cmdline "earlycon rd.retry=30 rd.shell root=/dev/disk/by-label/root-arm64" \
     --kernel_offset "0x00080000" \
     --ramdisk_offset "0x02000000" \
     --tags_offset "0x01e00000" \

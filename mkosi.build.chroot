@@ -2,15 +2,33 @@
 set -uexo pipefail
 
 for package in dracut-sshd-git; do
-    cd aur-pkg/$package
-    set +e
-    env EUID=123 makepkg
-    err="$?"
-    set -e
+    (
+        cd aur-pkg/$package
+        set +e
+        env EUID=123 PKGDEST=$PACKAGEDIR makepkg
+        err="$?"
+        set -e
 
-    if [[ "$err" -gt 0 ]] && [[ "$err" != "13" ]]; then
-        exit 1
-    fi
+        if [[ "$err" -gt 0 ]] && [[ "$err" != "13" ]]; then
+            exit 1
+        fi
 
-    cp $package*.pkg.tar.xz $PACKAGEDIR
+        # cp $package*.pkg.tar.xz $PACKAGEDIR
+    )
+done
+
+for package in linux-msm8916; do
+    (
+        cd pkg/$package
+        set +e
+        env EUID=123 PKGDEST=$PACKAGEDIR makepkg
+        err="$?"
+        set -e
+
+        if [[ "$err" -gt 0 ]] && [[ "$err" != "13" ]]; then
+            exit 1
+        fi
+
+        # cp $package*.pkg.tar.xz $PACKAGEDIR
+    )
 done
