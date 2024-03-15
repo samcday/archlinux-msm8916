@@ -28,7 +28,7 @@ Good question, and well asked.
 
 ### [Kupfer Linux][6] already exists. Why bother with this?
 
-(what follows should probably be a properly thought-out and writtne essay that lives somewhere else but here)
+(what follows should probably be a properly thought-out and written essay that lives somewhere else but here)
 
 I tried Kupfer. I think it's the wrong approach for a few reasons.
 
@@ -51,8 +51,8 @@ I guess I would summarize this rant thusly: postmarketOS is lots of different ef
 
 I would say the valuable aspects of postmarketOS are:
 
- * Mainlining efforts. That is getting drivers for countless mobile devices out of GPL code dumps from ~~awful soulless commercial vampires~~ vendors like Samsung/Qualcomm/etc and into the mainline Linux kernel.
- * Bootloader efforts. Making it possible to transitiong from janky vendor code that was only intended to boot into whatever crappy OS they were shoving down their customers throats.
+ * Mainlining efforts. That is, getting drivers for countless mobile devices out of GPL code dumps from ~~awful soulless commercial vampires~~ vendors like Samsung/Qualcomm/etc and into the mainline Linux kernel.
+ * Bootloader efforts. Making it possible to transition away from janky vendor code that was only intended to boot into whatever crappy OS they were shoving down their customers throats. Back when they still gave a shit about that particular phone (which in most cases, was about one year from the date they first launched it).
  * Research efforts: continuing to lift the veil on the technical particulars of the myriad Android devices that were yeeted into the market over the last decade or so.
 
 Beyond that, though, I think that most of their user-land (i.e basically everything they're doing from the moment the kernel hands over to initramfs) efforts are in vain. They're reinventing the wheel far too much.
