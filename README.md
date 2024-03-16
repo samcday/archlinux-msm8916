@@ -27,6 +27,8 @@ fastboot flash userdata image.disk
 fastboot reboot
 ```
 
+Note: `lk2nd-next` will *not* work, as it has dropped `boot.img` support, and the new extlinux loading has limits on initramfs size. You can build and flash [my fork][7], but note that this has only been lightly tested specifically for samsung-a5 devices.
+
 ## (Potentially) FAQ
 
 ### [postmarketOS][3] already has mature support for the A5. Why bother with this?
@@ -52,3 +54,4 @@ Everything, basically.
 [4]: https://github.com/msm8916-mainline/lk2nd#lk2nd
 [5]: https://github.com/msm8916-mainline/lk2nd#installation
 [6]: https://kupfer.gitlab.io/
+[7]: https://github.com/samcday/lk2nd

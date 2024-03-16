@@ -14,5 +14,5 @@ package() {
     cp -R $srcdir/boot $pkgdir/
     cp -R $srcdir/usr $pkgdir/
     cp -R $srcdir/lib $pkgdir/usr
-    mv $pkgdir/boot/vmlinuz $pkgdir/usr/lib/modules/
+    mv $pkgdir/boot/vmlinuz $pkgdir/usr/lib/modules/*-msm8916/
 }
