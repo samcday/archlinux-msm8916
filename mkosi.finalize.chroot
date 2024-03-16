@@ -27,6 +27,6 @@ menu title boot prev kernel
 label alarm
 	kernel /vmlinuz-dtb
 	fdt /msm8916-samsung-a5u-eur.dtb
-	initrd /initramfs-6.6.0-msm8916.img
+	initrd /initramfs-$kver.img
 	append earlycon rd.retry=30 rd.shell /dev/mapper/mmcblk0p27p2
 HERE
