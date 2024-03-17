@@ -1,11 +1,12 @@
 #/bin/bash
 set -uexo pipefail
 
-for package in dracut-sshd-git; do
+aur_packages=$(cat aur-packages)
+for package in $aur_packages; do
     (
         cd aur-pkg/$package
         set +e
-        env EUID=123 PKGDEST=$PACKAGEDIR makepkg
+        env EUID=123 PKGDEST=$PACKAGEDIR makepkg -s
         err="$?"
         set -e
 
@@ -17,11 +18,11 @@ for package in dracut-sshd-git; do
     )
 done
 
-for package in linux-msm8916; do
+for package in $(ls pkg/); do
     (
         cd pkg/$package
         set +e
-        env EUID=123 PKGDEST=$PACKAGEDIR makepkg
+        env EUID=123 PKGDEST=$PACKAGEDIR makepkg -s
         err="$?"
         set -e
 

@@ -2,9 +2,10 @@
 set -uexo pipefail
 
 mkdir -p aur-pkg/
-cd aur-pkg/
+aur_packages=$(cat aur-packages)
 
-for package in systemd-gadget dracut-sshd-git; do
+cd aur-pkg/
+for package in $aur_packages; do
     [[ ! -d $package ]] && git clone https://aur.archlinux.org/${package}.git || true
     pushd $package; git pull; popd
 done

@@ -1,4 +1,4 @@
 #!/bin/bash
 set -uexo pipefail
 
-pacman -S --noconfirm dracut-sshd-git linux-msm8916
+pacman -S --noconfirm $(cat aur-packages) $(ls pkg/)
