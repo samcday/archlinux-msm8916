@@ -19,7 +19,7 @@ mkbootimg \
     -o /boot/boot.img
 
 mkdir -p /boot/extlinux
-echo > /boot/extlinux/extlinux.conf <<HERE
+cat > /boot/extlinux/extlinux.conf <<HERE
 timeout 1
 default alarm
 menu title boot prev kernel

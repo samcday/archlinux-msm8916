@@ -4,8 +4,6 @@ check() {
 
 install() {
     inst_multiple -o \
-        "/sbin/ip" \
-        "/usr/bin/head" \
         "/usr/bin/start-usb-gadget.sh" \
         "${systemdsystemunitdir}/usb-network-gadget.service" \
         "${systemdsystemunitdir}/usb-gadget.target"
