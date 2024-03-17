@@ -8,7 +8,7 @@ sudo mkbootimg \
     --ramdisk image/boot/initramfs-6.6.0-msm8916.img \
     --base "0x80000000" \
     --second_offset "0x00f00000" \
-    --cmdline "earlycon rd.retry=15 rd.shell root=UUID=e8abdfd5-c87a-4fb9-8baa-d400f3f285e5" \
+    --cmdline "console=tty0 root=UUID=e8abdfd5-c87a-4fb9-8baa-d400f3f285e5 systemd.firstboot=off ${EXTRA_CMDLINE:-}" \
     --kernel_offset "0x00080000" \
     --ramdisk_offset "0x02000000" \
     --tags_offset "0x01e00000" \
