@@ -15,8 +15,8 @@ boot_dev=/dev/mapper/$(sudo kpartx -l image.disk | head -n1 | cut -d ' ' -f1)
 root_dev=/dev/mapper/$(sudo kpartx -l image.disk | tail -n1 | cut -d ' ' -f1)
 sudo kpartx -afs image.disk
 
-sudo mkfs.ext2 $boot_dev
-sudo mkfs.ext4 $root_dev
+sudo mkfs.ext2 -U "82cf7dcc-2956-47aa-aecc-7a186a2fa7b0" $boot_dev
+sudo mkfs.ext4 -U "e8abdfd5-c87a-4fb9-8baa-d400f3f285e5" $root_dev
 
 sudo mount $boot_dev $dir/boot
 sudo mount $root_dev $dir/root

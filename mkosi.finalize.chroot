@@ -1,6 +1,10 @@
+#!/bin/bash
+set -uexo pipefail
+
 ssh-keygen -A
 systemctl enable sshd.service
 
+root="UUID=e8abdfd5-c87a-4fb9-8baa-d400f3f285e5"
 kver=6.6.0-msm8916
 
 dracut --kver $kver
@@ -11,7 +15,7 @@ mkbootimg \
     --ramdisk /boot/initramfs-$kver.img \
     --base "0x80000000" \
     --second_offset "0x00f00000" \
-    --cmdline "earlycon rd.retry=30 rd.shell root=/dev/mapper/mmcblk0p27p2" \
+    --cmdline "earlycon rd.retry=30 rd.shell root=$root" \
     --kernel_offset "0x00080000" \
     --ramdisk_offset "0x02000000" \
     --tags_offset "0x01e00000" \
@@ -26,7 +30,7 @@ menu title boot prev kernel
 
 label alarm
 	kernel /vmlinuz-dtb
-	fdt /msm8916-samsung-a5u-eur.dtb
+	fdtdir dtbs
 	initrd /initramfs-$kver.img
-	append earlycon rd.retry=30 rd.shell root=/dev/mapper/mmcblk0p27p2
+	append earlycon rd.retry=30 rd.shell root=$root
 HERE

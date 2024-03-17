@@ -1,29 +1,18 @@
 #!/bin/bash
 set -uexo pipefail
 
-dir=$(mktemp)
-rm -rf $dir
-mkdir -p $dir/{boot,root}
+# prepares a boot.img from the locally built image tree and boot it directly
 
-boot_dev=/dev/mapper/$(sudo kpartx -l image.raw | head -n1 | cut -d ' ' -f1)
-root_dev=/dev/mapper/$(sudo kpartx -l image.raw | tail -n1 | cut -d ' ' -f1)
-
-trap "set +x; sudo umount $boot_dev; sudo umount $root_dev; sudo kpartx -d image.raw" EXIT
-sudo kpartx -afs image.raw
-
-sudo mount $boot_dev $dir/boot
-sudo mount $root_dev $dir/root
-
-sudo cat $dir/root/usr/lib/modules/vmlinuz $dir/boot/dtbs/qcom/msm8916-samsung-a5u-eur.dtb > /tmp/vmlinuz-dtb
 sudo mkbootimg \
-    --kernel /tmp/vmlinuz-dtb \
-    --ramdisk $dir/boot/initramfs-6.6.0-msm8916.img \
+    --kernel image/boot/vmlinuz-dtb \
+    --ramdisk image/boot/initramfs-6.6.0-msm8916.img \
     --base "0x80000000" \
     --second_offset "0x00f00000" \
-    --cmdline "earlycon rd.retry=30 rd.shell root=/dev/disk/by-label/root-arm64" \
+    --cmdline "earlycon rd.retry=15 rd.shell root=UUID=e8abdfd5-c87a-4fb9-8baa-d400f3f285e5" \
     --kernel_offset "0x00080000" \
     --ramdisk_offset "0x02000000" \
     --tags_offset "0x01e00000" \
     --pagesize "2048" \
-    -o /tmp/test.img
-fastboot boot /tmp/test.img
+    -o /tmp/boot.img
+
+fastboot boot /tmp/boot.img
