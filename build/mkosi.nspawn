@@ -1,5 +1,0 @@
-[Exec]
-User=builduser
-
-[Files]
-Bind=../pkg:/home/builduser/pkg

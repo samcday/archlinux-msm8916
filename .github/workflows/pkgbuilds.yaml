@@ -12,7 +12,8 @@ jobs:
     container: archlinux:base-devel
     steps:
       - uses: actions/checkout@v4
-      - run: |
+      - name: build package
+        run: |
           set -uexo pipefail
 
           srcinfo="PKGBUILDs/linux-msm8916-pmos/.SRCINFO"
@@ -56,13 +57,13 @@ jobs:
     needs:
       - linux-msm8916-pmos
     steps:
-      - name: Download All Artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           path: repo/
           pattern: package-*
           merge-multiple: true
-      - env:
+      - name: publish new packages
+        env:
           RCLONE_CONFIG_BUCKET_TYPE: b2
           RCLONE_CONFIG_BUCKET_ACCOUNT: ${{secrets.BUCKET_ACCOUNT}}
           RCLONE_CONFIG_BUCKET_KEY: ${{secrets.BUCKET_KEY}}

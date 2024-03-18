@@ -1,8 +1,8 @@
-# samsung-a5-alarm
+# archlinux-msm8916
 
-This repository demonstrates how to boot Arch Linux ARM (ALARM) on a [Samsung Galaxy A5][1] phone.
+**Experimental, don't use this for anything yet.**
 
-It uses [mkosi][2] to build an image that is suitable for flashing to an A5 device.
+Boot Arch Linux ARM on your [MSM8916](https://wiki.postmarketos.org/wiki/Qualcomm_Snapdragon_410/412_(MSM8916)#Devices) devices.
 
 ## Usage
 
