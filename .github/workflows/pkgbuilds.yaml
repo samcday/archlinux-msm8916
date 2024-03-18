@@ -7,13 +7,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  linux-msm8916-pmos:
     runs-on: ubuntu-latest
     container: archlinux:base-devel
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           set -uexo pipefail
+
+          srcinfo="PKGBUILDs/linux-msm8916-pmos/.SRCINFO"
+          pkgver=$(cat "${srcinfo}" | grep "pkgver =" | cut -d'=' -f2 | xargs)
+          pkgrel=$(cat "${srcinfo}" | grep "pkgrel =" | cut -d'=' -f2 | xargs)
+          pkgname=$(cat "${srcinfo}" | grep "pkgname =" | head -n1 | cut -d'=' -f2 | xargs)
+          pkgarch=$(cat "${srcinfo}" | grep "arch =" | head -n1 | cut -d'=' -f2 | xargs)
+
+          pkg="${pkgname}-${pkgver}-${pkgrel}-${pkgarch}"
+          if curl -I --fail -s "https://archlinux-msm8916.samcday.com/${pkg}.pkg.tar.zst"; then
+            echo "${pkg} already exists, skipping build"
+            exit
+          fi
 
           pacman="pacman --noconfirm --noprogressbar"
           $pacman -Sy sudo
@@ -36,5 +48,38 @@ jobs:
             makepkg --noconfirm -s
       - uses: actions/upload-artifact@v4
         with:
-          name: packages
+          name: package-linux-msm8916-pmos
           path: _pkg/**/*.pkg.tar.zst
+  repo_upload:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    needs:
+      - linux-msm8916-pmos
+    steps:
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: repo/
+          pattern: package-*
+          merge-multiple: true
+      - env:
+          RCLONE_CONFIG_BUCKET_TYPE: b2
+          RCLONE_CONFIG_BUCKET_ACCOUNT: ${{secrets.BUCKET_ACCOUNT}}
+          RCLONE_CONFIG_BUCKET_KEY: ${{secrets.BUCKET_KEY}}
+        run: |
+          set -uexo pipefail
+
+          pacman -Sy --noconfirm rclone
+          bucket=samcday-archlinux-msm8916
+
+          rclone copy BUCKET:$bucket/msm8916.db repo/
+          rclone copy BUCKET:$bucket/msm8916.files repo/
+
+          ln -s msm8916.db repo/msm8916.db.tar.xz
+          ln -s msm8916.files repo/msm8916.files.tar.xz
+
+          repo-add repo/msm8916.db.tar.xz repo/*.pkg.tar.zst
+
+          rclone copy --include '*.pkg.tar.zst' repo/ BUCKET:$bucket/
+          rclone copy -L repo/msm8916.db BUCKET:$bucket/
+          rclone copy -L repo/msm8916.files BUCKET:$bucket/
