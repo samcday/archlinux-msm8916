@@ -19,41 +19,40 @@ jobs:
         with:
           arch: aarch64
           distro: archarm_latest
-      - name: build package
-        run: |
-          set -uexo pipefail
+          run: |
+            set -uexo pipefail
 
-          git clone https://aur.archlinux.org/${{matrix.package}}.git
-          srcinfo="${{matrix.package}}/.SRCINFO"
-          pkgver=$(cat "${srcinfo}" | grep "pkgver =" | cut -d'=' -f2 | xargs)
-          pkgrel=$(cat "${srcinfo}" | grep "pkgrel =" | cut -d'=' -f2 | xargs)
-          pkgname=$(cat "${srcinfo}" | grep "pkgname =" | head -n1 | cut -d'=' -f2 | xargs)
-          pkgarch=$(cat "${srcinfo}" | grep "arch =" | head -n1 | cut -d'=' -f2 | xargs)
+            git clone https://aur.archlinux.org/${{matrix.package}}.git
+            srcinfo="${{matrix.package}}/.SRCINFO"
+            pkgver=$(cat "${srcinfo}" | grep "pkgver =" | cut -d'=' -f2 | xargs)
+            pkgrel=$(cat "${srcinfo}" | grep "pkgrel =" | cut -d'=' -f2 | xargs)
+            pkgname=$(cat "${srcinfo}" | grep "pkgname =" | head -n1 | cut -d'=' -f2 | xargs)
+            pkgarch=$(cat "${srcinfo}" | grep "arch =" | head -n1 | cut -d'=' -f2 | xargs)
 
-          pkg="${pkgname}-${pkgver}-${pkgrel}-${pkgarch}"
-          if curl -I --fail -s "https://archlinux-msm8916.samcday.com/${pkg}.pkg.tar.zst"; then
-            echo "${pkg} already exists, skipping build"
-            exit
-          fi
+            pkg="${pkgname}-${pkgver}-${pkgrel}-${pkgarch}"
+            if curl -I --fail -s "https://archlinux-msm8916.samcday.com/${pkg}.pkg.tar.zst"; then
+              echo "${pkg} already exists, skipping build"
+              exit
+            fi
 
-          pacman="pacman --noconfirm --noprogressbar"
-          $pacman -Sy sudo
-          useradd builder -m
-          echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+            pacman="pacman --noconfirm --noprogressbar"
+            $pacman -Sy sudo
+            useradd builder -m
+            echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 
-          BUILDDIR=${GITHUB_WORKSPACE}/_build
-          PKGDEST=${GITHUB_WORKSPACE}/_pkg
-          SRCDEST=${GITHUB_WORKSPACE}/_src
+            BUILDDIR=${GITHUB_WORKSPACE}/_build
+            PKGDEST=${GITHUB_WORKSPACE}/_pkg
+            SRCDEST=${GITHUB_WORKSPACE}/_src
 
-          mkdir $BUILDDIR $PKGDEST $SRCDEST
-          chown builder:builder $BUILDDIR $PKGDEST $SRCDEST
+            mkdir $BUILDDIR $PKGDEST $SRCDEST
+            chown builder:builder $BUILDDIR $PKGDEST $SRCDEST
 
-          cd ${{matrix.package}}
-          sudo -u builder \
-            BUILDDIR="$BUILDDIR" \
-            PKGDEST="$PKGDEST" \
-            SRCDEST="$SRCDEST" \
-            makepkg --noconfirm -s
+            cd ${{matrix.package}}
+            sudo -u builder \
+              BUILDDIR="$BUILDDIR" \
+              PKGDEST="$PKGDEST" \
+              SRCDEST="$SRCDEST" \
+              makepkg --noconfirm -s
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{matrix.package}}
