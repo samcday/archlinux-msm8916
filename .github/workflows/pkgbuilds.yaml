@@ -69,6 +69,11 @@ jobs:
         run: |
           set -uexo pipefail
 
+          if [[ -z "$(find repo/ -name '*.pkg.tar.zst')" ]]; then
+            echo "no new packages to publish"
+            exit
+          fi
+
           pacman -Sy --noconfirm rclone
           bucket=samcday-archlinux-msm8916
 
