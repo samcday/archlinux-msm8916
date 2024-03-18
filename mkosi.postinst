@@ -1,4 +1,0 @@
-#!/bin/bash
-set -uexo pipefail
-
-pacman -S --noconfirm $(cat aur-packages) $(ls pkg/)

@@ -5,22 +5,9 @@ ssh-keygen -A
 systemctl enable sshd.service
 
 root="UUID=e8abdfd5-c87a-4fb9-8baa-d400f3f285e5"
-kver=6.6.0-msm8916
+kver=6.6.0-1-msm8916-pmos
 
-dracut --kver $kver
-
-cat /usr/lib/modules/$kver/vmlinuz /boot/dtbs/qcom/msm8916-samsung-a5u-eur.dtb > /boot/vmlinuz-dtb
-mkbootimg \
-    --kernel /boot/vmlinuz-dtb \
-    --ramdisk /boot/initramfs-$kver.img \
-    --base "0x80000000" \
-    --second_offset "0x00f00000" \
-    --cmdline "console=tty0 root=$root rw systemd.firstboot=off" \
-    --kernel_offset "0x00080000" \
-    --ramdisk_offset "0x02000000" \
-    --tags_offset "0x01e00000" \
-    --pagesize "2048" \
-    -o /boot/boot.img
+dracut --kver $kver '/boot/initramfs'
 
 mkdir -p /boot/extlinux
 cat > /boot/extlinux/extlinux.conf <<HERE
@@ -29,12 +16,24 @@ default alarm
 menu title boot prev kernel
 
 label alarm
-	kernel /vmlinuz-dtb
+	kernel /Image.gz
 	fdtdir dtbs
-	initrd /initramfs-$kver.img
+	initrd /initramfs
 	append console=tty0 root=$root rw systemd.firstboot=off
 HERE
 
 pacman-key --init
 pacman-key --populate archlinuxarm
 pacman-key --lsign 68B3537F39A313B3E574D06777193F152BDBE6A6
+
+# mkbootimg \
+#     --kernel /boot/Image.gz \
+#     --ramdisk /boot/initramfs \
+#     --base "0x80000000" \
+#     --second_offset "0x00f00000" \
+#     --cmdline "console=tty0 root=$root rw systemd.firstboot=off" \
+#     --kernel_offset "0x00080000" \
+#     --ramdisk_offset "0x02000000" \
+#     --tags_offset "0x01e00000" \
+#     --pagesize "2048" \
+#     -o /boot/boot.img

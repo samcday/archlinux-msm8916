@@ -3,9 +3,10 @@ set -uexo pipefail
 
 # prepares a boot.img from the locally built image tree and boot it directly
 
+cat image/boot/Image.gz image/boot/dtbs/qcom/msm8916-samsung-a5u-eur.dtb > /tmp/vmlinuz-dtb
 sudo mkbootimg \
-    --kernel image/boot/vmlinuz-dtb \
-    --ramdisk image/boot/initramfs-6.6.0-msm8916.img \
+    --kernel /tmp/vmlinuz-dtb \
+    --ramdisk image/boot/initramfs \
     --base "0x80000000" \
     --second_offset "0x00f00000" \
     --cmdline "console=tty0 root=UUID=e8abdfd5-c87a-4fb9-8baa-d400f3f285e5 systemd.firstboot=off ${EXTRA_CMDLINE:-}" \
