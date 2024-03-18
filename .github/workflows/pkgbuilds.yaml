@@ -22,6 +22,7 @@ jobs:
           run: |
             set -uexo pipefail
 
+            pacman -Syu git base-devel
             git clone https://aur.archlinux.org/${{matrix.package}}.git
             srcinfo="${{matrix.package}}/.SRCINFO"
             pkgver=$(cat "${srcinfo}" | grep "pkgver =" | cut -d'=' -f2 | xargs)

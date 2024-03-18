@@ -34,3 +34,7 @@ label alarm
 	initrd /initramfs-$kver.img
 	append console=tty0 root=$root rw systemd.firstboot=off
 HERE
+
+pacman-key --init
+pacman-key --populate archlinuxarm
+pacman-key --lsign 68B3537F39A313B3E574D06777193F152BDBE6A6
