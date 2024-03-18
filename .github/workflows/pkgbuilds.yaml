@@ -13,8 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
+          pacman="pacman --noconfirm --noprogressbar"
+          $pacman -Sy sudo
+          useradd builder -m
+          echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
+
           cd PKGBUILDs/linux-msm8916-pmos
-          CARCH=aarch64 EUID=123 makepkg -si
+          sudo -u builder CARCH=aarch64 makepkg --noconfirm -s
+          CARCH=aarch64 makepkg -si
       - uses: actions/upload-artifact@v4
         with:
           name: linux-msm8916-pmos
