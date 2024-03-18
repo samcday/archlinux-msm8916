@@ -17,14 +17,13 @@ jobs:
     steps:
       - uses: uraimo/run-on-arch-action@v2
         with:
-          arch: aarch64
-          distro: archarm_latest
+          base_image: menci/archlinuxarm:base-devel
           run: |
             set -uexo pipefail
 
             pacman="pacman --noconfirm --noprogressbar"
 
-            $pacman -Syu git
+            $pacman -Sy git
             git clone https://aur.archlinux.org/${{matrix.package}}.git
             srcinfo="${{matrix.package}}/.SRCINFO"
             pkgver=$(cat "${srcinfo}" | grep "pkgver =" | cut -d'=' -f2 | xargs)
@@ -38,7 +37,7 @@ jobs:
               exit
             fi
 
-            $pacman -S base-devel sudo
+            $pacman -S sudo
 
             useradd builder -m
             echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
