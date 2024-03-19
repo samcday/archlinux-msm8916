@@ -12,6 +12,7 @@ jobs:
     outputs:
       matrix: ${{ steps.list.outputs.output }}
     steps:
+      - uses: actions/checkout@v4
       - id: list
         run: echo "output=$(.github/ci-scripts/aur-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
 
@@ -20,6 +21,7 @@ jobs:
     outputs:
       matrix: ${{ steps.list.outputs.output }}
     steps:
+      - uses: actions/checkout@v4
       - id: list
         run: echo "output=$(.github/ci-scripts/pkg-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
 
@@ -28,6 +30,7 @@ jobs:
     outputs:
       matrix: ${{ steps.list.outputs.output }}
     steps:
+      - uses: actions/checkout@v4
       - id: list
         run: echo "output=$(NATIVE_ONLY=1 .github/ci-scripts/pkg-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
 
