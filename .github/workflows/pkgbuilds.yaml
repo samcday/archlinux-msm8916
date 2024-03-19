@@ -63,7 +63,6 @@ jobs:
 
   pkgs:
     runs-on: ubuntu-latest
-    container: archlinux:base-devel
     needs: pkg_list
     strategy:
       matrix: ${{ fromJson(needs.pkg_list.outputs.matrix) }}
