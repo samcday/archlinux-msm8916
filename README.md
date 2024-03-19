@@ -29,6 +29,10 @@ fastboot reboot
 
 Note: `lk2nd-next` will *not* work, as it has dropped `boot.img` support, and the new extlinux loading has limits on initramfs size. You can build and flash [my fork][7], but note that this has only been lightly tested specifically for samsung-a5 devices.
 
+## Project scope
+
+The goal of this project is to make Arch Linux ARM a viable option to boot on these devices, with as few changes from upstream as possible. As such there should only be a small set of packages maintained that bridge the gap between Arch Linux and the quirks and non-standard aspects of these devices. See the [`PKGBUILDs`](./PKGBUILDs/) directory for this list of packages.
+
 ## (Potentially) FAQ
 
 ### [postmarketOS][3] already has mature support for the A5. Why bother with this?
