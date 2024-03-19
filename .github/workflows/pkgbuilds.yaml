@@ -50,12 +50,12 @@ jobs:
             pacman --noconfirm --noprogressbar -Sy git
             git clone https://aur.archlinux.org/${{matrix.package}}.git
 
-            if ! ./github/ci-scripts/check-package-published.sh ${{matrix.package}}; then
+            if ! .github/ci-scripts/check-package-published.sh ${{matrix.package}}; then
               echo "${pkg} already exists, skipping build"
               exit 0
             fi
 
-            ./github/ci-scripts/makepkg.sh ${{matrix.package}}
+            .github/ci-scripts/makepkg.sh ${{matrix.package}}
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{matrix.package}}
@@ -75,12 +75,12 @@ jobs:
           run: |
             set -uexo pipefail
 
-            if ! ./github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
+            if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
               echo "${pkg} already exists, skipping build"
               exit 0
             fi
 
-            ./github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
+            .github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{matrix.package}}
@@ -98,12 +98,12 @@ jobs:
         run: |
           set -uexo pipefail
 
-          if ! ./github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
+          if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
             echo "${pkg} already exists, skipping build"
             exit 0
           fi
 
-          CARCH="aarch64" ./github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
+          CARCH="aarch64" .github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{matrix.package}}
