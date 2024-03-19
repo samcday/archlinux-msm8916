@@ -1,0 +1,29 @@
+# Maintainer: Sam Day <me@samcday.com>
+pkgname=msm-firmware-loader
+pkgver=1.4.0
+pkgrel=1
+pkgdesc="Automatically load Qualcomm MSM firmware from device partitions"
+arch=(any)
+url="https://gitlab.com/postmarketOS/msm-firmware-loader"
+license=('MIT')
+install=msm-firmware-loader.install
+source=(
+    "https://gitlab.com/postmarketOS/msm-firmware-loader/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.bz2"
+    0001-Support-retrieving-WCNSS_qcom_wlan_nv.bin-from-syste.patch
+    )
+sha256sums=('1bc97ef26eb597373bd2facf5c94d6f34719b8dd551482c4ef1b1e58784c2175'
+            '76d3c4f53cf9376afebd1587ef770cc8a1737fef64cdce724375123e3dc61ef6')
+
+prepare() {
+    patch --forward --strip=1 --directory="$pkgname-$pkgver" --input=../0001-Support-retrieving-WCNSS_qcom_wlan_nv.bin-from-syste.patch
+}
+
+package() {
+    cd "$pkgname-$pkgver"
+
+    mkdir -p "$pkgdir/usr/lib/firmware/msm-firmware-loader"
+    install -Dm644 "msm-firmware-loader.service" "$pkgdir/usr/lib/systemd/system/msm-firmware-loader.service"
+    install -Dm644 "msm-firmware-loader-unpack.service" "$pkgdir/usr/lib/systemd/system/msm-firmware-loader-unpack.service"
+    install -Dm755 "msm-firmware-loader.sh" "$pkgdir/usr/bin/msm-firmware-loader.sh"
+    install -Dm755 "msm-firmware-loader-unpack.sh" "$pkgdir/usr/bin/msm-firmware-loader-unpack.sh"
+}

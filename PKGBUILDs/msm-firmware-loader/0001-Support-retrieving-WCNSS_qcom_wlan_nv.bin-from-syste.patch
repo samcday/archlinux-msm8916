@@ -1,0 +1,43 @@
+From 4a57a969124cf45d8e9b16c8e70070b3ded4527c Mon Sep 17 00:00:00 2001
+From: Sam Day <me@samcday.com>
+Date: Tue, 19 Mar 2024 15:39:36 +0100
+Subject: [PATCH] Support retrieving WCNSS_qcom_wlan_nv.bin from system
+ partition
+
+---
+ msm-firmware-loader.sh | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/msm-firmware-loader.sh b/msm-firmware-loader.sh
+index b5a7f85..5b32f95 100644
+--- a/msm-firmware-loader.sh
++++ b/msm-firmware-loader.sh
+@@ -37,6 +37,7 @@ FW_PARTITIONS="
+ 	apnhlos
+ 	modem$(ab_get_slot)
+ 	persist
++	system
+ "
+ 
+ # Base directory to be used to unfold the partitions into.
+@@ -106,10 +107,13 @@ do
+ 	done
+ done
+ 
+-# Check WCNSS_qcom_wlan_nv.bin in persist partition
+-if [ -f "$BASEDIR"/mnt/persist/WCNSS_qcom_wlan_nv.bin ]
+-then
+-	ln -s "$BASEDIR"/mnt/persist/WCNSS_qcom_wlan_nv.bin "$BASEDIR"/target/WCNSS_qcom_wlan_nv.bin
++# Check WCNSS_qcom_wlan_nv.bin in persist and system partitions
++prima_nv_persist="$BASEDIR/mnt/persist/WCNSS_qcom_wlan_nv.bin"
++prima_nv_system="$BASEDIR/mnt/system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin"
++if [ -f "$prima_nv_persist" ]; then
++	ln -s "$prima_nv_persist" "$BASEDIR"/target/WCNSS_qcom_wlan_nv.bin
++elif [ -f "$prima_nv_system" ]; then
++	ln -s "$prima_nv_system" "$BASEDIR"/target/WCNSS_qcom_wlan_nv.bin
+ fi
+ 
+ # Fixup the directory structure:
+-- 
+2.44.0
+

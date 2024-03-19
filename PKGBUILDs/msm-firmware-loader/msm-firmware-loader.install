@@ -1,0 +1,4 @@
+post_install() {
+    systemctl enable msm-firmware-loader
+    systemctl enable msm-firmware-loader-unpack
+}
