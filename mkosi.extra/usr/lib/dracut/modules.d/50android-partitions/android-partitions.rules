@@ -1,2 +1,0 @@
-SUBSYSTEM=="block", ACTION=="add|change", ENV{ID_PART_ENTRY_NAME}=="userdata", RUN+="/sbin/kpartx -afs $env{DEVNAME}"
-SUBSYSTEM=="block", ACTION=="add|change", ENV{ID_PART_ENTRY_NAME}=="system*",  RUN+="/sbin/kpartx -afs $env{DEVNAME}"
