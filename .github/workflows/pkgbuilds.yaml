@@ -8,6 +8,7 @@ on:
 
 jobs:
   aur_list:
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.list.outputs.output }}
     steps:
@@ -15,6 +16,7 @@ jobs:
         run: echo "output=$(.github/ci-scripts/aur-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
 
   pkg_list:
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.list.outputs.output }}
     steps:
@@ -22,6 +24,7 @@ jobs:
         run: echo "output=$(.github/ci-scripts/pkg-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
 
   pkg_list_native:
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.list.outputs.output }}
     steps:
