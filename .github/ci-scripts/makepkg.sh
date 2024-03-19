@@ -1,7 +1,7 @@
 #!/bin/bash
 set -uexo pipefail
 
-pacman --noconfirm --noprogressbar -S sudo
+pacman --noconfirm --noprogressbar -Sy sudo
 
 useradd builder -m
 echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
