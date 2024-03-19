@@ -1,0 +1,19 @@
+pkgbase = dracut-android-userdata
+	pkgdesc = Dracut hook to facilitate booting from an Android userdata partition
+	pkgver = 1
+	pkgrel = 1
+	url = https://github.com/samcday/archlinux-msm8916
+	arch = any
+	license = MIT
+	depends = bash
+	depends = jq
+	depends = parted
+	depends = multipath-tools
+	source = module-setup.sh
+	source = mount-userdata.sh
+	source = userdata-partition.rules
+	sha256sums = a514a68a69ddb557aca7a53641cc014c85f6d00a4094b8532cd4337a2c7da8d3
+	sha256sums = 05431c1952cb2458139811132141d6c87cfdce795a8df030f66bce7516a4ebae
+	sha256sums = f46c4d05337d84b71b7812fc4a83e81345a44e95543f84f641b2ddf415ad6af4
+
+pkgname = dracut-android-userdata
