@@ -18,10 +18,10 @@ sudo mkosi
 sudo mkosi shell
 
 # Prepare the image for flashing
-./make-image.sh
+./make-mbr-image.sh
 
 # Flash the image to your device
-fastboot flash userdata image.disk
+fastboot flash userdata image.raw.mbr
 
 # Cross your fingers. Hold on to yer butts.
 fastboot reboot

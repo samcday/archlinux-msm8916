@@ -1,2 +1,2 @@
-UUID=e8abdfd5-c87a-4fb9-8baa-d400f3f285e5   /       ext4        defaults    0 1
-UUID=82cf7dcc-2956-47aa-aecc-7a186a2fa7b0   /boot   ext2      	defaults	0 2
+UUID=8a0b09b9-2862-4937-b0cc-117a26c52961   /       ext4        defaults    0 1
+UUID=cbb0d631-0355-4bef-b25c-b140f01cf9b4   /boot   ext2      	defaults	0 2
