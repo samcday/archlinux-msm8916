@@ -7,57 +7,35 @@ on:
   workflow_dispatch:
 
 jobs:
+  aur_list:
+    outputs:
+      matrix: ${{ steps.list.outputs.output }}
+    steps:
+      - id: list
+        run: echo "output=$(.github/ci-scripts/aur-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
   aur:
     runs-on: ubuntu-latest
+    needs: aur_list
     strategy:
-      matrix:
-        # TODO: should dynamically populate this
-        # https://www.kenmuse.com/blog/dynamic-build-matrices-in-github-actions/
-        package:
-          - dracut-android-userdata
-          - dracut-sshd-git
-          - unudhcpd
+      matrix: ${{ fromJson(needs.aur_list.outputs.matrix) }}
     steps:
+      - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         with:
           base_image: menci/archlinuxarm:base-devel
           run: |
             set -uexo pipefail
 
-            pacman="pacman --noconfirm --noprogressbar"
-
-            $pacman -Sy git
+            pacman --noconfirm --noprogressbar -Sy git
             git clone https://aur.archlinux.org/${{matrix.package}}.git
-            srcinfo="${{matrix.package}}/.SRCINFO"
-            pkgver=$(cat "${srcinfo}" | grep "pkgver =" | cut -d'=' -f2 | xargs)
-            pkgrel=$(cat "${srcinfo}" | grep "pkgrel =" | cut -d'=' -f2 | xargs)
-            pkgname=$(cat "${srcinfo}" | grep "pkgname =" | head -n1 | cut -d'=' -f2 | xargs)
-            pkgarch=$(cat "${srcinfo}" | grep "arch =" | head -n1 | cut -d'=' -f2 | xargs)
 
-            pkg="${pkgname}-${pkgver}-${pkgrel}-${pkgarch}"
-            if curl -I --fail -s "https://archlinux-msm8916.samcday.com/${pkg}.pkg.tar.zst"; then
+            if ! ./github/ci-scripts/check-package-published.sh ${{matrix.package}}; then
               echo "${pkg} already exists, skipping build"
-              exit
+              exit 0
             fi
 
-            $pacman -S sudo
+            ./github/ci-scripts/makepkg.sh ${{matrix.package}}
 
-            useradd builder -m
-            echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
-
-            BUILDDIR=${GITHUB_WORKSPACE}/_build
-            PKGDEST=${GITHUB_WORKSPACE}/_pkg
-            SRCDEST=${GITHUB_WORKSPACE}/_src
-
-            mkdir $BUILDDIR $PKGDEST $SRCDEST
-            chown builder:builder $BUILDDIR $PKGDEST $SRCDEST
-
-            cd ${{matrix.package}}
-            sudo -u builder \
-              BUILDDIR="$BUILDDIR" \
-              PKGDEST="$PKGDEST" \
-              SRCDEST="$SRCDEST" \
-              makepkg --noconfirm -s
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{matrix.package}}
@@ -71,37 +49,12 @@ jobs:
         run: |
           set -uexo pipefail
 
-          srcinfo="PKGBUILDs/linux-msm8916-pmos/.SRCINFO"
-          pkgver=$(cat "${srcinfo}" | grep "pkgver =" | cut -d'=' -f2 | xargs)
-          pkgrel=$(cat "${srcinfo}" | grep "pkgrel =" | cut -d'=' -f2 | xargs)
-          pkgname=$(cat "${srcinfo}" | grep "pkgname =" | head -n1 | cut -d'=' -f2 | xargs)
-          pkgarch=$(cat "${srcinfo}" | grep "arch =" | head -n1 | cut -d'=' -f2 | xargs)
-
-          pkg="${pkgname}-${pkgver}-${pkgrel}-${pkgarch}"
-          if curl -I --fail -s "https://archlinux-msm8916.samcday.com/${pkg}.pkg.tar.zst"; then
+          if ! ./github/ci-scripts/check-package-published.sh PKGBUILDs/linux-msm8916-pmos; then
             echo "${pkg} already exists, skipping build"
-            exit
+            exit 0
           fi
 
-          pacman="pacman --noconfirm --noprogressbar"
-          $pacman -Sy sudo
-          useradd builder -m
-          echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
-
-          BUILDDIR=${GITHUB_WORKSPACE}/_build
-          PKGDEST=${GITHUB_WORKSPACE}/_pkg
-          SRCDEST=${GITHUB_WORKSPACE}/_src
-
-          mkdir $BUILDDIR $PKGDEST $SRCDEST
-          chown builder:builder $BUILDDIR $PKGDEST $SRCDEST
-
-          cd PKGBUILDs/linux-msm8916-pmos
-          sudo -u builder \
-            BUILDDIR="$BUILDDIR" \
-            PKGDEST="$PKGDEST" \
-            SRCDEST="$SRCDEST" \
-            CARCH=aarch64 \
-            makepkg --noconfirm -s
+          CARCH="aarch64" ./github/ci-scripts/makepkg.sh PKGBUILDs/linux-msm8916-pmos
       - uses: actions/upload-artifact@v4
         with:
           name: package-linux-msm8916-pmos
