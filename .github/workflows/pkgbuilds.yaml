@@ -51,7 +51,7 @@ jobs:
             git clone https://aur.archlinux.org/${{matrix.package}}.git
 
             if ! .github/ci-scripts/check-package-published.sh ${{matrix.package}}; then
-              echo "${pkg} already exists, skipping build"
+              echo "${{matrix.package}} already exists, skipping build"
               exit 0
             fi
 
@@ -76,7 +76,7 @@ jobs:
             set -uexo pipefail
 
             if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
-              echo "${pkg} already exists, skipping build"
+              echo "${{matrix.package}} already exists, skipping build"
               exit 0
             fi
 
@@ -99,7 +99,7 @@ jobs:
           set -uexo pipefail
 
           if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
-            echo "${pkg} already exists, skipping build"
+            echo "${{matrix.package}} already exists, skipping build"
             exit 0
           fi
 
