@@ -1,6 +1,8 @@
 #!/bin/bash
 set -uexo pipefail
 
+systemctl enable NetworkManager
+
 ssh-keygen -A
 systemctl enable sshd.service
 
