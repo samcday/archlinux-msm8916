@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # TODO: should dynamically populate this
+        # https://www.kenmuse.com/blog/dynamic-build-matrices-in-github-actions/
         package:
+          - dracut-android-userdata
           - dracut-sshd-git
           - unudhcpd
     steps:
