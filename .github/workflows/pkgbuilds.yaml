@@ -13,6 +13,21 @@ jobs:
     steps:
       - id: list
         run: echo "output=$(.github/ci-scripts/aur-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
+
+  pkg_list:
+    outputs:
+      matrix: ${{ steps.list.outputs.output }}
+    steps:
+      - id: list
+        run: echo "output=$(.github/ci-scripts/pkg-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
+
+  pkg_list_native:
+    outputs:
+      matrix: ${{ steps.list.outputs.output }}
+    steps:
+      - id: list
+        run: echo "output=$(NATIVE_ONLY=1 .github/ci-scripts/pkg-list.sh 2>/dev/null | jq -c .)" >> $GITHUB_OUTPUT
+
   aur:
     runs-on: ubuntu-latest
     needs: aur_list
@@ -35,36 +50,66 @@ jobs:
             fi
 
             ./github/ci-scripts/makepkg.sh ${{matrix.package}}
-
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{matrix.package}}
           path: ${{github.workspace}}/_pkg/**/*.pkg.tar.zst
-  linux-msm8916-pmos:
+
+  pkgs:
     runs-on: ubuntu-latest
     container: archlinux:base-devel
+    needs: pkg_list
+    strategy:
+      matrix: ${{ fromJson(needs.pkg_list.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: uraimo/run-on-arch-action@v2
+        with:
+          base_image: menci/archlinuxarm:base-devel
+          run: |
+            set -uexo pipefail
+
+            if ! ./github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
+              echo "${pkg} already exists, skipping build"
+              exit 0
+            fi
+
+            ./github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package-${{matrix.package}}
+          path: _pkg/**/*.pkg.tar.zst
+
+  pkgs_native:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    needs: pkg_list_native
+    strategy:
+      matrix: ${{ fromJson(needs.pkg_list_native.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
       - name: build package
         run: |
           set -uexo pipefail
 
-          if ! ./github/ci-scripts/check-package-published.sh PKGBUILDs/linux-msm8916-pmos; then
+          if ! ./github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
             echo "${pkg} already exists, skipping build"
             exit 0
           fi
 
-          CARCH="aarch64" ./github/ci-scripts/makepkg.sh PKGBUILDs/linux-msm8916-pmos
+          CARCH="aarch64" ./github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
       - uses: actions/upload-artifact@v4
         with:
-          name: package-linux-msm8916-pmos
+          name: package-${{matrix.package}}
           path: _pkg/**/*.pkg.tar.zst
+
   repo_upload:
     runs-on: ubuntu-latest
     container: archlinux:base-devel
     needs:
       - aur
-      - linux-msm8916-pmos
+      - pkgs
+      - pkgs_native
     steps:
       - uses: actions/download-artifact@v4
         with:
