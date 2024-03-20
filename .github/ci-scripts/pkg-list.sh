@@ -9,7 +9,7 @@ packages=$(ls -1 PKGBUILDs)
 echo '{"package":['
 first=1
 for package in $packages; do
-    if [[ ! -f PKGBUILDs/$package/.nativebuild ]]; then
+    if [[ ! -f PKGBUILDs/$package/.SRCINFO ]]; then
         continue
     fi
     if [[ -z "${NATIVE_ONLY:-}" ]] && [[ -f PKGBUILDs/$package/.nativebuild ]]; then
