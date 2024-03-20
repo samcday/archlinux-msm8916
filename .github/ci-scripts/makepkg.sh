@@ -13,6 +13,12 @@ SRCDEST=${GITHUB_WORKSPACE}/_src
 mkdir $BUILDDIR $PKGDEST $SRCDEST
 chown builder:builder $BUILDDIR $PKGDEST $SRCDEST
 
+cat >> /etc/pacman.conf <<HERE
+[msm8916]
+Server = https://archlinux-msm8916.samcday.com
+SigLevel = Never
+HERE
+
 cd $1
 sudo -u builder \
     BUILDDIR="$BUILDDIR" \
