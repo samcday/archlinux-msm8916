@@ -1,0 +1,8 @@
+#!/bin/bash
+set -uexo pipefail
+
+# cd $BUILDDIR
+# [[ ! -d paru-bin ]] && git clone https://aur.archlinux.org/paru-bin.git
+# cd paru-bin
+# git pull
+# env EUID=123 PKGDEST=$PACKAGEDIR makepkg --noconfirm -si
