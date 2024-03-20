@@ -1,13 +1,17 @@
 #!/bin/bash
 set -uexo pipefail
 
+pacman-key --init
+pacman-key --populate archlinuxarm
+pacman-key --lsign 68B3537F39A313B3E574D06777193F152BDBE6A6
+
 systemctl enable NetworkManager
 
 ssh-keygen -A
 systemctl enable sshd.service
 
 root="UUID=8a0b09b9-2862-4937-b0cc-117a26c52961"
-kver=6.6.0-1-msm8916-pmos
+kver=$(ls /usr/lib/modules)
 
 dracut --kver $kver '/boot/initramfs'
 
@@ -24,9 +28,6 @@ label alarm
 	append console=tty0 root=$root rw systemd.firstboot=off
 HERE
 
-pacman-key --init
-pacman-key --populate archlinuxarm
-pacman-key --lsign 68B3537F39A313B3E574D06777193F152BDBE6A6
 
 # mkbootimg \
 #     --kernel /boot/Image.gz \
