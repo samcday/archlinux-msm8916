@@ -15,20 +15,6 @@ kver=$(ls /usr/lib/modules)
 
 dracut --kver $kver '/boot/initramfs'
 
-mkdir -p /boot/extlinux
-cat > /boot/extlinux/extlinux.conf <<HERE
-timeout 1
-default alarm
-menu title boot prev kernel
-
-label alarm
-	kernel /Image.gz
-	fdtdir dtbs
-	initrd /initramfs
-	append console=tty0 root=$root rw systemd.firstboot=off
-HERE
-
-
 # mkbootimg \
 #     --kernel /boot/Image.gz \
 #     --ramdisk /boot/initramfs \

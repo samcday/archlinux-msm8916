@@ -25,7 +25,7 @@ source=(
 
     dracut.conf
 
-    # extlinux.conf
+    extlinux.conf
 )
 sha256sums=('3800cbbbfe4c9df32bbd11ac7a6e4c5ece3834b01f3a7dc4d048c9ce057e2086'
             '2d4cb864eb10d77ca3e8d2e1b5c51943bcb369e3c37d051be9fc674b09bb2665'
@@ -33,7 +33,8 @@ sha256sums=('3800cbbbfe4c9df32bbd11ac7a6e4c5ece3834b01f3a7dc4d048c9ce057e2086'
             'f2f29a6d68650083fc2db24cf92ad923ba113e6a91a108b075d55beb4dc0e3a8'
             '2df90ae84cdd1764c9888a06d8f3fc77389192cab7c795a2a55c995b057c6dfc'
             '5ffd4a7b6b380ba826411dc3252950894a1bd4ff3531e1b570abaa4059584b46'
-            '8c6cf6f90bb11dd508b1809fda88fca089c721da7312913320c21d2c8f8e0d78')
+            '8c6cf6f90bb11dd508b1809fda88fca089c721da7312913320c21d2c8f8e0d78'
+            '045832e4fb73856eb173042487c9a78cd02f34867816f2f9ffcf2d1ec8aae846')
 
 package() {
     install -D -m644 boot.automount $pkgdir/usr/lib/systemd/system/boot.automount
