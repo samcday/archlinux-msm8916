@@ -19,6 +19,7 @@ pkgbase = archlinux-msm8916
 	source = cmdline.splash.conf
 	source = cmdline.systemd.firstboot.conf
 	source = dracut.conf
+	source = extlinux.conf
 	sha256sums = 3800cbbbfe4c9df32bbd11ac7a6e4c5ece3834b01f3a7dc4d048c9ce057e2086
 	sha256sums = 2d4cb864eb10d77ca3e8d2e1b5c51943bcb369e3c37d051be9fc674b09bb2665
 	sha256sums = d5bd78feeab0642f886b718c33cf1e7e431f9d9b7b27cf3965b4d3adb314ec49
@@ -26,5 +27,6 @@ pkgbase = archlinux-msm8916
 	sha256sums = 2df90ae84cdd1764c9888a06d8f3fc77389192cab7c795a2a55c995b057c6dfc
 	sha256sums = 5ffd4a7b6b380ba826411dc3252950894a1bd4ff3531e1b570abaa4059584b46
 	sha256sums = 8c6cf6f90bb11dd508b1809fda88fca089c721da7312913320c21d2c8f8e0d78
+	sha256sums = 045832e4fb73856eb173042487c9a78cd02f34867816f2f9ffcf2d1ec8aae846
 
 pkgname = archlinux-msm8916

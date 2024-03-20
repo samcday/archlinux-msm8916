@@ -11,7 +11,7 @@ sudo mkbootimg \
     --ramdisk /tmp/initramfs \
     --base "0x80000000" \
     --second_offset "0x00f00000" \
-    --cmdline "console=tty0 systemd.firstboot=off ${EXTRA_CMDLINE:-}" \
+    --cmdline "${EXTRA_CMDLINE:-}" \
     --kernel_offset "0x00080000" \
     --ramdisk_offset "0x02000000" \
     --tags_offset "0x01e00000" \
