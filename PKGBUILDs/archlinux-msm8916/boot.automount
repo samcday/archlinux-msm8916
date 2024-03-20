@@ -1,0 +1,10 @@
+[Unit]
+Description=Automount /boot partition
+ConditionPathExists=/boot
+
+[Automount]
+Where=/boot
+TimeoutIdleSec=10
+
+[Install]
+WantedBy=multi-user.target

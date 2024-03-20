@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount /boot partition
+
+[Mount]
+What=/dev/disk/by-uuid/cbb0d631-0355-4bef-b25c-b140f01cf9b4
+Where=/boot
+Type=ext2
+Options=rw,noatime
+
+[Install]
+WantedBy=multi-user.target
