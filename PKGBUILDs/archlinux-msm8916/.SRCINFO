@@ -1,11 +1,12 @@
 pkgbase = archlinux-msm8916
 	pkgdesc = Arch Linux on MSM8916
 	pkgver = 1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://github.com/samcday/archlinux-msm8916
 	arch = any
 	license = MIT
 	depends = dracut
+	depends = lk2nd-boot
 	depends = linux-firmware-qcom
 	depends = msm-firmware-loader
 	conflicts = mkinitcpio
