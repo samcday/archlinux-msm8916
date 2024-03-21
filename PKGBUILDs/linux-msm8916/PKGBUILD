@@ -7,7 +7,7 @@ _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform"
 pkgver=6.8.1
 _srcname=linux-6.8
-pkgrel=1
+pkgrel=3
 arch=('aarch64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -18,11 +18,13 @@ source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         "http://www.kernel.org/pub/linux/kernel/v6.x/patch-${pkgver}.xz"
         "config"
         "msm8916.patch"
+        "${pkgbase}.preset"
 )
 sha256sums=('c969dea4e8bb6be991bbf7c010ba0e0a5643a3a8d8fb0a2aaa053406f1e965f3'
             'dfdfbf3045be48db3b99038a72eb2e6906a31dc11672230b4f45597de2e8cf11'
             '165b382e4ab13251d15d9f41e50976131b410fa4fa2d5fe5f1a081a58c235a52'
-            'd36631b41d9e3c99e0f8058c287af51732b5ddd251c96cc01db996a2e9d46159')
+            'd36631b41d9e3c99e0f8058c287af51732b5ddd251c96cc01db996a2e9d46159'
+            '6247b14fd1deb817682391d531046ff823a7fb3eca06cba4c12974a3a8464e7b')
 
 if [[ "$CHOST" == "x86_64-pc-linux-gnu" ]]; then
   makedepends+=('aarch64-linux-gnu-gcc')
@@ -96,6 +98,10 @@ _package() {
     s|%PKGBASE%|${pkgbase}|g
     s|%KERNVER%|${kernver}|g
   "
+
+  # install mkinitcpio preset file
+  sed "${_subst}" ../${pkgbase}.preset |
+    install -Dm644 /dev/stdin "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
 
   # rather than use another hook (90-linux.hook) rely on kmod's 90-mkinitcpio-install.hook
   # which avoids a double run of mkinitcpio that can occur
