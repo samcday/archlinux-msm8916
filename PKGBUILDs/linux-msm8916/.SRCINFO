@@ -1,6 +1,6 @@
 pkgbase = linux-msm8916
 	pkgver = 6.8.1
-	pkgrel = 3
+	pkgrel = 4
 	url = http://www.kernel.org/
 	arch = aarch64
 	license = GPL2
@@ -23,7 +23,7 @@ pkgbase = linux-msm8916
 	sha256sums = dfdfbf3045be48db3b99038a72eb2e6906a31dc11672230b4f45597de2e8cf11
 	sha256sums = 165b382e4ab13251d15d9f41e50976131b410fa4fa2d5fe5f1a081a58c235a52
 	sha256sums = d36631b41d9e3c99e0f8058c287af51732b5ddd251c96cc01db996a2e9d46159
-	sha256sums = 8b5072e3c48571f48492c344fd8b84ede2ad9f4e1b3db39e61f2d7d6d11cd588
+	sha256sums = 56903cfda07a06cad15128546fb8d3d27074548859507fa4cc6f197c5c55256c
 
 pkgname = linux-msm8916
 
