@@ -80,7 +80,6 @@ jobs:
     runs-on: ubuntu-latest
     container: archlinux:base-devel
     needs:
-      - aur
       - pkgs
       - pkgs_native
     steps:
