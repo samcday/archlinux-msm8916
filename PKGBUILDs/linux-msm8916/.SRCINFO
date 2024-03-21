@@ -1,6 +1,6 @@
 pkgbase = linux-msm8916
 	pkgver = 6.8.1
-	pkgrel = 4
+	pkgrel = 5
 	url = http://www.kernel.org/
 	arch = aarch64
 	license = GPL2
