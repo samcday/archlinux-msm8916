@@ -1,6 +1,6 @@
 pkgname=lk2nd-boot
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="MSM8916 boot support for lk2nd"
 arch=(any)
 url="https://github.com/samcday/archlinux-msm8916"

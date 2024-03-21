@@ -1,6 +1,6 @@
 pkgname=archlinux-msm8916
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Arch Linux on MSM8916"
 arch=(any)
 url="https://github.com/samcday/archlinux-msm8916"
