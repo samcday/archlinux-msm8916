@@ -9,8 +9,6 @@ install=lk2nd-boot.install
 depends=(
     android-tools
     jq
-    linux-firmware-qcom
-    msm-firmware-loader
     multipath-tools
     parted
 )
@@ -18,35 +16,25 @@ source=(
     boot.automount
     boot.mount
 
-    cmdline.console.conf
-    cmdline.root.conf
-    cmdline.splash.conf
-    cmdline.systemd.firstboot.conf
-
-    mkinitcpio-hook
-    mkinitcpio-install-hook
-    mkinitcpio-post-hook
+    cmdline.conf
+    module-setup.sh
+    mount-userdata.sh
+    userdata-partition.rules
 )
 sha256sums=('3800cbbbfe4c9df32bbd11ac7a6e4c5ece3834b01f3a7dc4d048c9ce057e2086'
             '2d4cb864eb10d77ca3e8d2e1b5c51943bcb369e3c37d051be9fc674b09bb2665'
-            'd5bd78feeab0642f886b718c33cf1e7e431f9d9b7b27cf3965b4d3adb314ec49'
-            'f2f29a6d68650083fc2db24cf92ad923ba113e6a91a108b075d55beb4dc0e3a8'
-            '2df90ae84cdd1764c9888a06d8f3fc77389192cab7c795a2a55c995b057c6dfc'
-            '5ffd4a7b6b380ba826411dc3252950894a1bd4ff3531e1b570abaa4059584b46'
-            'bc57b9d6e2e9a51ee87d359aaa02e87c5dd9fa29275fc09c7dfec4242f054224'
-            '5939c0b054434e03866feb1b5d83a924270ba0b405343fc3df0df1d98af9f9dd'
-            '82631d864a4e86ec7f79da46b63e6191a232315be40d93ee7b0268c467f16679')
+            'a8c01c559b81c42bfc845ecbf45de220ca71348b130db28a95be6c26aa0d5f3b'
+            '5e0e4d8f36635d21f14db6246f35aee837d5279859aacd9565407ed9ab5f559e'
+            '57301ac8804faec7e20e6f6d6015a22fcd7095c797ef4c45d6e3b42454e90d72'
+            'f46c4d05337d84b71b7812fc4a83e81345a44e95543f84f641b2ddf415ad6af4')
 
 package() {
-    install -D -m644 boot.automount $pkgdir/usr/lib/systemd/system/boot.automount
-    install -D -m644 boot.mount $pkgdir/usr/lib/systemd/system/boot.mount
+    install -D -m644 boot.automount "$pkgdir/usr/lib/systemd/system/boot.automount"
+    install -D -m644 boot.mount "$pkgdir/usr/lib/systemd/system/boot.mount"
 
-    install -D -m644 cmdline.console.conf $pkgdir/etc/cmdline.d/console.conf
-    install -D -m644 cmdline.root.conf $pkgdir/etc/cmdline.d/root.conf
-    install -D -m644 cmdline.splash.conf $pkgdir/etc/cmdline.d/splash.conf
-    install -D -m644 cmdline.systemd.firstboot.conf $pkgdir/etc/cmdline.d/systemd.firstboot.conf
-
-    install -D -m644 mkinitcpio-install-hook ${pkgdir}/usr/lib/initcpio/install/lk2nd-boot
-    install -D -m644 mkinitcpio-hook ${pkgdir}/usr/lib/initcpio/hooks/lk2nd-boot
-    install -D -m755 mkinitcpio-post-hook ${pkgdir}/usr/lib/initcpio/post/lk2nd-boot
+    dracutmoddir=$pkgdir/usr/lib/dracut/modules.d/50lk2nd-boot
+    install -D -m644 cmdline.conf "$dracutmoddir/cmdline.conf"
+    install -D -m644 module-setup.sh "$dracutmoddir/module-setup.sh"
+    install -D -m755 mount-userdata.sh "$dracutmoddir/mount-userdata.sh"
+    install -D -m644 userdata-partition.rules "$dracutmoddir/userdata-partition.rules"
 }

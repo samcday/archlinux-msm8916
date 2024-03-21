@@ -3,7 +3,9 @@ set -uexo pipefail
 
 # This script prepares a boot.img from the locally built image, and boots it directly
 
-sudo mkosi shell cat /boot/Image.gz /boot/dtbs/qcom/msm8916-samsung-a5u-eur.dtb > /tmp/vmlinuz-dtb
+kver=$(sudo mkosi shell ls /lib/modules)
+sudo mkosi shell cat /lib/modules/${kver}/vmlinuz | gzip > /tmp/vmlinuz-dtb
+sudo mkosi shell cat /lib/modules/${kver}/dtbs/qcom/msm8916-samsung-a5u-eur.dtb >> /tmp/vmlinuz-dtb
 sudo mkosi shell cat /boot/initramfs > /tmp/initramfs
 
 sudo mkbootimg \
