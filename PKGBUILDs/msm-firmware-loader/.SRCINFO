@@ -1,9 +1,8 @@
 pkgbase = msm-firmware-loader
 	pkgdesc = Automatically load Qualcomm MSM firmware from device partitions
 	pkgver = 1.4.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://gitlab.com/postmarketOS/msm-firmware-loader
-	install = msm-firmware-loader.install
 	arch = any
 	license = MIT
 	source = https://gitlab.com/postmarketOS/msm-firmware-loader/-/archive/1.4.0/msm-firmware-loader-1.4.0.tar.bz2

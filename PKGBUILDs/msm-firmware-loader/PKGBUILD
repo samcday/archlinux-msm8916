@@ -1,12 +1,11 @@
 # Maintainer: Sam Day <me@samcday.com>
 pkgname=msm-firmware-loader
 pkgver=1.4.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Automatically load Qualcomm MSM firmware from device partitions"
 arch=(any)
 url="https://gitlab.com/postmarketOS/msm-firmware-loader"
 license=('MIT')
-install=msm-firmware-loader.install
 source=(
     "https://gitlab.com/postmarketOS/msm-firmware-loader/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.bz2"
     0001-Support-retrieving-WCNSS_qcom_wlan_nv.bin-from-syste.patch
