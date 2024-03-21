@@ -1,0 +1,46 @@
+#!/bin/bash
+
+if [[ -n "${DEBUG:-}" ]]; then
+    set -x
+fi
+
+# Stolen from mkinitcpio
+cmdline_files=()
+if [[ -d '/etc/cmdline.d' ]]; then
+    mapfile -d '' -O "${#cmdline_files[@]}" cmdline_files < <(LC_ALL=C.UTF-8 find "/etc/cmdline.d" -xtype f -name '*.conf' -print0 | LC_ALL=C.UTF-8 sort -zVu)
+fi
+
+cmdline=$(printf '%s\n' "$(grep -ha -- '^[^#]' "${cmdline_files[@]}" | tr -s '\n' ' ')")
+
+mkdir -p /boot/extlinux
+cat > /boot/extlinux/extlinux.conf <<HERE
+timeout 1
+default alarm
+menu title boot prev kernel
+
+label alarm
+	kernel ${1#/boot}
+	fdtdir dtbs
+	initrd ${2#/boot}
+	append $cmdline
+HERE
+
+vmlinuz_dtb=$(mktemp)
+trap 'rm $vmlinuz_dtb' EXIT
+
+# TODO: figure out the right dtb via /sys/firmware
+cat "$1" /boot/dtbs/qcom/msm8916-samsung-a5u-eur.dtb > "$vmlinuz_dtb"
+
+# Note: it's assumed these offsets are consistent across all msm8916 aarch64 devices.
+# Hopefully this is true, because it means we avoid relying on the deviceinfo mess altogether.
+mkbootimg \
+    --kernel "$vmlinuz_dtb" \
+    --ramdisk "$2" \
+    --base "0x80000000" \
+    --second_offset "0x00f00000" \
+    --cmdline "${cmdline}" \
+    --kernel_offset "0x00080000" \
+    --ramdisk_offset "0x02000000" \
+    --tags_offset "0x01e00000" \
+    --pagesize "2048" \
+    -o /boot/boot.img

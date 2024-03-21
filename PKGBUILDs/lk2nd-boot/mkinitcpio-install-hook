@@ -1,0 +1,10 @@
+#!/bin/bash
+
+build() {
+    add_binary blkid
+    add_binary jq
+    add_binary kpartx
+    add_binary parted
+
+    add_runscript
+}
