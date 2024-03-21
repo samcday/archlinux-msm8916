@@ -7,7 +7,7 @@ _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform"
 pkgver=6.8.1
 _srcname=linux-6.8
-pkgrel=5
+pkgrel=6
 arch=('aarch64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -85,7 +85,7 @@ _package() {
 
   echo "Installing boot image and dtbs..."
   install -Dm644 arch/arm64/boot/Image "$modulesdir/vmlinuz"
-  make INSTALL_DTBS_PATH="${modulesdir}/dtbs" dtbs_install
+  make INSTALL_DTBS_PATH="${modulesdir}/dtb" dtbs_install
 
   echo "Installing modules..."
   make INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 modules_install
