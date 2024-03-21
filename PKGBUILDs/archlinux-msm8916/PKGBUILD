@@ -10,7 +10,7 @@ conflicts=(
 )
 depends=(
     dracut
-    lk2nd-boot
+    # lk2nd-boot
     linux-firmware-qcom
     msm-firmware-loader
 )

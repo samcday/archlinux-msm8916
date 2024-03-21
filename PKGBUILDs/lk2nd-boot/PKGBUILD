@@ -8,6 +8,7 @@ license=('MIT')
 install=lk2nd-boot.install
 depends=(
     android-tools
+    dracut
     jq
     multipath-tools
     parted

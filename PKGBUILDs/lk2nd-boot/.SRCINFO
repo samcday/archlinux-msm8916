@@ -7,6 +7,7 @@ pkgbase = lk2nd-boot
 	arch = any
 	license = MIT
 	depends = android-tools
+	depends = dracut
 	depends = jq
 	depends = multipath-tools
 	depends = parted
