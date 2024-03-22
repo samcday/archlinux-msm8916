@@ -26,8 +26,9 @@ elif [ -f /usr/lib/kernel/cmdline ]; then
 else
     BOOT_OPTIONS="$(tr -s "$IFS" '\n' </proc/cmdline | grep -ve '^BOOT_IMAGE=' -e '^initrd=' | tr '\n' ' ')"
 fi
-BOOT_OPTIONS="${BOOT_OPTIONS% }"
 
+# Maybe these hardcoded kernel params should be set somewhere else?
+BOOT_OPTIONS="console=tty0 systemd.firstboot=off splash ${BOOT_OPTIONS% }"
 
 # find dracut initrd - this was ripped from 50-dracut.install
 if [[ -d "$BOOT_DIR_ABS" ]]; then

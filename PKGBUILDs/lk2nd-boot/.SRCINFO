@@ -1,7 +1,7 @@
 pkgbase = lk2nd-boot
 	pkgdesc = MSM8916 boot support for lk2nd
 	pkgver = 1
-	pkgrel = 3
+	pkgrel = 4
 	url = https://github.com/samcday/archlinux-msm8916
 	install = lk2nd-boot.install
 	arch = any
@@ -21,9 +21,10 @@ pkgbase = lk2nd-boot
 	source = kernel.install
 	sha256sums = 3800cbbbfe4c9df32bbd11ac7a6e4c5ece3834b01f3a7dc4d048c9ce057e2086
 	sha256sums = 2d4cb864eb10d77ca3e8d2e1b5c51943bcb369e3c37d051be9fc674b09bb2665
-	sha256sums = a8c01c559b81c42bfc845ecbf45de220ca71348b130db28a95be6c26aa0d5f3b
+	sha256sums = f2f29a6d68650083fc2db24cf92ad923ba113e6a91a108b075d55beb4dc0e3a8
 	sha256sums = 5e0e4d8f36635d21f14db6246f35aee837d5279859aacd9565407ed9ab5f559e
 	sha256sums = 57301ac8804faec7e20e6f6d6015a22fcd7095c797ef4c45d6e3b42454e90d72
 	sha256sums = f46c4d05337d84b71b7812fc4a83e81345a44e95543f84f641b2ddf415ad6af4
+	sha256sums = 039332381c3c319a1ad021c7f5b7149dc8372536a828c6c42728f6e095892578
 
 pkgname = lk2nd-boot
