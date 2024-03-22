@@ -43,5 +43,5 @@ package() {
     install -D -m755 mount-userdata.sh "$dracutmoddir/mount-userdata.sh"
     install -D -m644 userdata-partition.rules "$dracutmoddir/userdata-partition.rules"
 
-    install -D -m755 kernel.install /usr/lib/kernel/install.d/99-lk2nd.install
+    install -D -m755 kernel.install "$pkgdir/usr/lib/kernel/install.d/99-lk2nd.install"
 }
