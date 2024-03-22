@@ -72,16 +72,18 @@ HERE
 # this is kinda brittle and shit code. just want to retain some level of pre-lk2nd-next support for now.
 
 # look for the appropriate dtb in kernel dtb dir
-searchmodel=$(cat /sys/firmware/devicetree/base/model)
 found=""
-while IFS= read -r -d '' file; do
-    model=$(dtc "$file" 2>/dev/null | grep -P '\tmodel = ' | head -n1 | sed -E 's/.*model = "(.*)";$/\1/')
-    if [[ "$searchmodel" == "$model" ]]; then
-        found="$file"
-        echo "Picked $file for boot.img DTB"
-        break
-    fi
-done < <(find "/usr/lib/modules/$KERNEL_VERSION/dtb/qcom" -name "*msm8916*.dtb" -print0)
+if [[ -f /sys/firmware/devicetree/base/model ]]; then
+    searchmodel=$(cat /sys/firmware/devicetree/base/model)
+    while IFS= read -r -d '' file; do
+        model=$(dtc "$file" 2>/dev/null | grep -P '\tmodel = ' | head -n1 | sed -E 's/.*model = "(.*)";$/\1/')
+        if [[ "$searchmodel" == "$model" ]]; then
+            found="$file"
+            echo "Picked $file for boot.img DTB"
+            break
+        fi
+    done < <(find "/usr/lib/modules/$KERNEL_VERSION/dtb/qcom" -name "*msm8916*.dtb" -print0)
+fi
 
 if [[ -z "$found" ]] && [[ -f /sys/firmware/fdt ]]; then
     # fallback to fdt
