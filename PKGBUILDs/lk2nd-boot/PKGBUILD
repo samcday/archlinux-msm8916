@@ -1,6 +1,6 @@
 pkgname=lk2nd-boot
 pkgver=1
-pkgrel=2
+pkgrel=3
 pkgdesc="MSM8916 boot support for lk2nd"
 arch=(any)
 url="https://github.com/samcday/archlinux-msm8916"
@@ -9,6 +9,7 @@ install=lk2nd-boot.install
 depends=(
     android-tools
     dracut
+    dtc
     jq
     multipath-tools
     parted
@@ -21,6 +22,8 @@ source=(
     module-setup.sh
     mount-userdata.sh
     userdata-partition.rules
+
+    kernel.install
 )
 sha256sums=('3800cbbbfe4c9df32bbd11ac7a6e4c5ece3834b01f3a7dc4d048c9ce057e2086'
             '2d4cb864eb10d77ca3e8d2e1b5c51943bcb369e3c37d051be9fc674b09bb2665'
@@ -38,4 +41,6 @@ package() {
     install -D -m644 module-setup.sh "$dracutmoddir/module-setup.sh"
     install -D -m755 mount-userdata.sh "$dracutmoddir/mount-userdata.sh"
     install -D -m644 userdata-partition.rules "$dracutmoddir/userdata-partition.rules"
+
+    install -D -m755 kernel.install /usr/lib/kernel/install.d/99-lk2nd.install
 }

@@ -1,0 +1,105 @@
+#!/bin/bash
+set -ueo pipefail 
+
+if [[ -n "${DEBUG:-}" ]]; then
+    set -x
+fi
+
+# only interested in add events for now.
+if [[ "$1" != "add" ]]; then
+    exit
+fi
+
+KERNEL_VERSION="$2"
+BOOT_DIR_ABS="$3"
+KERNEL_IMAGE="$4"
+
+# determine command line. this was ripped from 90-loadentry.install
+if [ -n "${KERNEL_INSTALL_CONF_ROOT:-}" ]; then
+    if [ -f "$KERNEL_INSTALL_CONF_ROOT/cmdline" ]; then
+        BOOT_OPTIONS="$(tr -s "$IFS" ' ' <"$KERNEL_INSTALL_CONF_ROOT/cmdline")"
+    fi
+elif [ -f /etc/kernel/cmdline ]; then
+    BOOT_OPTIONS="$(tr -s "$IFS" ' ' </etc/kernel/cmdline)"
+elif [ -f /usr/lib/kernel/cmdline ]; then
+    BOOT_OPTIONS="$(tr -s "$IFS" ' ' </usr/lib/kernel/cmdline)"
+else
+    BOOT_OPTIONS="$(tr -s "$IFS" '\n' </proc/cmdline | grep -ve '^BOOT_IMAGE=' -e '^initrd=' | tr '\n' ' ')"
+fi
+BOOT_OPTIONS="${BOOT_OPTIONS% }"
+
+
+# find dracut initrd - this was ripped from 50-dracut.install
+if [[ -d "$BOOT_DIR_ABS" ]]; then
+    INITRD="initrd"
+else
+    BOOT_DIR_ABS="/boot"
+    INITRD="initramfs-${KERNEL_VERSION}.img"
+fi
+
+if [[ ! -f "$BOOT_DIR_ABS/$INITRD" ]]; then
+    echo "ERROR: initramfs not found"
+    exit 77
+fi
+
+# lk2nd-next extlinux is kinda ... eh. it only supports one label.
+# so for now we just copy the initramfs + kernel to the top level
+cp "$BOOT_DIR_ABS/$INITRD" "$KERNEL_INSTALL_BOOT_ROOT/initramfs"
+cp "${KERNEL_IMAGE}" "${KERNEL_INSTALL_BOOT_ROOT}/vmlinuz"
+# ensure /boot/dtb matches exactly this kernel
+rm -rf "${KERNEL_INSTALL_BOOT_ROOT}/dtb"
+cp -R "/lib/modules/${KERNEL_VERSION}/dtb" "${KERNEL_INSTALL_BOOT_ROOT}"
+# and so there you have it.
+# if lk2nd-next extlinux support could support multiple labels, and maybe also fallback if the picked one
+# is bad somehow (missing files or whatever), then this could be made a lot more robust and less hacky.
+# </end janky>
+
+mkdir -p "${KERNEL_INSTALL_BOOT_ROOT}/extlinux"
+cat > "${KERNEL_INSTALL_BOOT_ROOT}/extlinux/extlinux.conf" <<HERE
+timeout 1
+default alarm
+menu title boot prev kernel
+
+label alarm
+        kernel /vmlinuz
+        fdtdir dtb
+        initrd /initramfs
+        append $BOOT_OPTIONS
+HERE
+
+# boot.img support
+# this is kinda brittle and shit code. just want to retain some level of pre-lk2nd-next support for now.
+
+# look for the appropriate dtb in kernel dtb dir
+searchmodel=$(cat /sys/firmware/devicetree/base/model)
+found=""
+while IFS= read -r -d '' file; do
+    model=$(dtc "$file" 2>/dev/null | grep -P '\tmodel = ' | head -n1 | sed -E 's/.*model = "(.*)";$/\1/')
+    if [[ "$searchmodel" == "$model" ]]; then
+        found="$file"
+        echo "Picked $file for boot.img DTB"
+        break
+    fi
+done < <(find "/usr/lib/modules/$KERNEL_VERSION/dtb/qcom" -name "*msm8916*.dtb" -print0)
+
+if [[ -z "$found" ]] && [[ -f /sys/firmware/fdt ]]; then
+    # fallback to fdt
+    found=/sys/firmware/fdt
+fi
+
+if [[ -n "$found" ]]; then
+    vmlinuz_dtb=$(mktemp)
+    trap 'rm $vmlinuz_dtb' EXIT
+    cat "$KERNEL_IMAGE" "$found" > "$vmlinuz_dtb"
+    sudo mkbootimg \
+        --kernel "$vmlinuz_dtb" \
+        --ramdisk "$KERNEL_INSTALL_BOOT_ROOT/initramfs" \
+        --base "0x80000000" \
+        --second_offset "0x00f00000" \
+        --cmdline "$BOOT_OPTIONS" \
+        --kernel_offset "0x00080000" \
+        --ramdisk_offset "0x02000000" \
+        --tags_offset "0x01e00000" \
+        --pagesize "2048" \
+        -o /boot/boot.img
+fi
