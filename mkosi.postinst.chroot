@@ -13,4 +13,4 @@ systemctl enable msm-firmware-loader-unpack
 ssh-keygen -A
 systemctl enable sshd.service
 
-dracut --kver "$(ls /usr/lib/modules)" '/boot/initramfs'
+KERNEL_INSTALL_BYPASS="" kernel-install add-all -v
