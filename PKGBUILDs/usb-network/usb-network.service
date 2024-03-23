@@ -5,8 +5,9 @@ Wants=modprobe@usbfunc:ncm.service modprobe@libcomposite.service
 DefaultDependencies=no
 
 [Service]
+RuntimeDirectory=usb-network
 ExecStartPre=/usr/bin/usb-network-start
-ExecStart=/usr/bin/dnsmasq -k -C /usr/share/dnsmasq/usb-network.conf
+ExecStart=/usr/bin/dnsmasq -k -C /usr/share/dnsmasq/usb-network.conf -x ${RUNTIME_DIRECTORY}/dnsmasq.pid --dhcp-leasefile=${RUNTIME_DIRECTORY}/dnsmasq.lease
 ExecStop=/usr/bin/usb-network-stop
 
 [Install]

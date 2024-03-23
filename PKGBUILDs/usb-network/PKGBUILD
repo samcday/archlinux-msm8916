@@ -1,7 +1,7 @@
 # Maintainer: Sam Day <me@samcday.com>
 pkgname=usb-network
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Allow network access to a device via USB gadget mode"
 arch=(any)
 url="https://github.com/samcday/archlinux-msm8916"
@@ -17,7 +17,7 @@ source=(
 sha256sums=('7fb78738a17124d62ff49a3452ec2080747859c4dbce736c029aa0b980286def'
             '85b32ed74998c4dec47faa82561bf472b0852164e881eed4aab20284e22e8142'
             '78bd7a74c0663ba45810f80bd5f5cfcad2d7de80e6bafdf91a799f4a5473530a'
-            'ce84c4b0e564bb1408b3b8d29a1db1dc7855ede916ce8bbcb33c43c34fede6e7'
+            '817430423890e62bd6a93415893d176df69006ea31cf8ab5d45137393372f48d'
             '24adeb836cf9abb52af7223c955f76afd328e32583238dbfb6a61716edde25ef')
 
 package() {
