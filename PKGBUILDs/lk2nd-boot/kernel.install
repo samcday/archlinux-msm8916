@@ -65,6 +65,8 @@ label alarm
         kernel /vmlinuz
         fdtdir dtb
         initrd /initramfs
+        # Note! Do not modify the kernel command line here!
+        # Instead, put your customizations in /etc/kernel/cmdline
         append $BOOT_OPTIONS
 HERE
 

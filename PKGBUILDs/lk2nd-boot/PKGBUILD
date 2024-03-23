@@ -1,6 +1,6 @@
 pkgname=lk2nd-boot
 pkgver=1
-pkgrel=5
+pkgrel=6
 pkgdesc="MSM8916 boot support for lk2nd"
 arch=(any)
 url="https://github.com/samcday/archlinux-msm8916"
@@ -31,7 +31,7 @@ sha256sums=('3800cbbbfe4c9df32bbd11ac7a6e4c5ece3834b01f3a7dc4d048c9ce057e2086'
             '5e0e4d8f36635d21f14db6246f35aee837d5279859aacd9565407ed9ab5f559e'
             '57301ac8804faec7e20e6f6d6015a22fcd7095c797ef4c45d6e3b42454e90d72'
             'f46c4d05337d84b71b7812fc4a83e81345a44e95543f84f641b2ddf415ad6af4'
-            '6821d682465a3a7014b0d1a37926f12497e24d92469620cc16d21c5e2d2109bf')
+            '40f069eafbc4e9e2917a6591c5ebe784899190b00be0eeb45c634a86816070e1')
 
 package() {
     install -D -m644 boot.automount "$pkgdir/usr/lib/systemd/system/boot.automount"
