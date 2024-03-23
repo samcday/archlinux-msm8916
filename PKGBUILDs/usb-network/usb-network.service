@@ -1,0 +1,13 @@
+[Unit]
+Description=USB networking gadget
+After=modprobe@usbfunc:ncm.service modprobe@libcomposite.service
+Wants=modprobe@usbfunc:ncm.service modprobe@libcomposite.service
+DefaultDependencies=no
+
+[Service]
+ExecStartPre=/usr/bin/usb-network-start
+ExecStart=/usr/bin/dnsmasq -k -C /usr/share/dnsmasq/usb-network.conf
+ExecStop=/usr/bin/usb-network-stop
+
+[Install]
+WantedBy=usb-gadget.target
