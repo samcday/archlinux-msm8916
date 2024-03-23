@@ -5,13 +5,7 @@ pacman-key --init
 pacman-key --populate archlinuxarm
 pacman-key --lsign 68B3537F39A313B3E574D06777193F152BDBE6A6
 
-systemctl enable NetworkManager
-systemctl enable usb-network
-systemctl enable msm-firmware-loader
-systemctl enable msm-firmware-loader-unpack
-
 ssh-keygen -A
-systemctl enable sshd.service
 
 # Write a dummy cmdline file, otherwise kernel-install reads host /proc/cmdline
 echo > /etc/kernel/cmdline
