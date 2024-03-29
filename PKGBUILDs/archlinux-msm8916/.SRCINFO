@@ -8,8 +8,9 @@ pkgbase = archlinux-msm8916
 	depends = dracut
 	depends = linux-firmware-qcom
 	depends = msm-firmware-loader
-	conflicts = mkinitcpio
 	source = dracut.conf
-	sha256sums = ba57b8a3fdd4d74540a3a67d8196ef7ada07f43343273d9add1f7f8412262b3b
+	source = tm2-touchkey-leds.rules
+	sha256sums = 2ed979b8ade891895889f43819acefa39d13d9fb1c2cbcc415d22b87ea2c7a75
+	sha256sums = e67f52aa0e7c1d8e276485f134bac91ad10c3410f17c1d5f5e6d429e2b2a5444
 
 pkgname = archlinux-msm8916
