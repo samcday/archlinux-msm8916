@@ -1,6 +1,6 @@
 pkgname=archlinux-msm8916
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc="Arch Linux on MSM8916"
 arch=(any)
 url="https://github.com/samcday/archlinux-msm8916"
@@ -10,7 +10,6 @@ conflicts=(
 )
 depends=(
     dracut
-    lk2nd-boot
     linux-firmware-qcom
     msm-firmware-loader
 )
