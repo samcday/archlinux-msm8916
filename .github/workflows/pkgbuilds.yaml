@@ -42,9 +42,14 @@ jobs:
           run: |
             set -uexo pipefail
 
+            # ALARM keys are a mess... 68B3537F39A313B3E574D06777193F152BDBE6A6 needs explicit signing
+            # because it's still using md5 which pacman-key very much dislikes nowadays.
             pacman-key --init
             pacman-key --populate archlinuxarm
             pacman-key --lsign 68B3537F39A313B3E574D06777193F152BDBE6A6
+
+            # ALARM still using xz packages when Arch upstream moved to zstd 4 years ago...
+            echo "PKGEXT='.pkg.tar.zst'" >> /etc/makepkg.conf
 
             if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
               echo "${{matrix.package}} already exists, skipping build"
