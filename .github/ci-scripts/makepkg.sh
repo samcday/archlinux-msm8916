@@ -7,7 +7,7 @@ Server = https://archlinux-msm8916.samcday.com
 SigLevel = Never
 HERE
 
-pacman --noconfirm --noprogressbar -Sy sudo
+pacman --noprogressbar --noconfirm --noprogressbar -Sy sudo
 
 useradd builder -m
 echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers

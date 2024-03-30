@@ -56,7 +56,7 @@ jobs:
               exit 0
             fi
 
-            pacman -Syu
+            pacman --noprogressbar --noconfirm -Syu
 
             .github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
       - run: |
