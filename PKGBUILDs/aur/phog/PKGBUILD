@@ -25,7 +25,6 @@ makedepends=(
     libnm
     meson
     pam
-    pandoc-cli
     python-packaging
     systemd-libs
     upower
