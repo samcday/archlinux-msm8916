@@ -42,15 +42,17 @@ jobs:
           run: |
             set -uexo pipefail
 
-            if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
-              echo "${{matrix.package}} already exists, skipping build"
+            pkg="${{matrix.package}}"
+            if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${pkg}; then
+              echo "${pkg} already exists, skipping build"
               exit 0
             fi
 
-            CARCH="aarch64" .github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
+            CARCH="aarch64" .github/ci-scripts/makepkg.sh PKGBUILDs/${pkg}
+            echo "ARTIFACTNAME=${pkg//\//_}" >> $GITHUB_ENV
       - uses: actions/upload-artifact@v4
         with:
-          name: package-${{matrix.package}}
+          name: package-${{env.ARTIFACTNAME}}
           path: _pkg/**/*.pkg.tar.zst
 
   pkgs_native:
