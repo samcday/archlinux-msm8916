@@ -77,7 +77,7 @@ jobs:
             exit 0
           fi
 
-          CARCH="aarch64" .github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
+          .github/ci-scripts/makepkg.sh PKGBUILDs/${{matrix.package}}
       - uses: actions/upload-artifact@v4
         with:
           name: package-${{matrix.package}}

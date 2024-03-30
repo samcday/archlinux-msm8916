@@ -24,5 +24,5 @@ sudo -u builder \
     BUILDDIR="$BUILDDIR" \
     PKGDEST="$PKGDEST" \
     SRCDEST="$SRCDEST" \
-    CARCH="${CARCH:-}" \
+    CARCH="${CARCH:-aarch64}" \
     makepkg --noconfirm -s
