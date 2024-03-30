@@ -7,7 +7,7 @@ Server = https://archlinux-msm8916.samcday.com
 SigLevel = Never
 HERE
 
-pacman --noprogressbar --noconfirm --noprogressbar -Sy sudo
+pacman --noprogressbar --noconfirm -Sy sudo
 
 useradd builder -m
 echo 'builder ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
@@ -25,4 +25,4 @@ sudo -u builder \
     PKGDEST="$PKGDEST" \
     SRCDEST="$SRCDEST" \
     CARCH="${CARCH:-aarch64}" \
-    makepkg --noconfirm -s
+    makepkg --noprogressbar --noconfirm -s
