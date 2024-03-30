@@ -42,6 +42,8 @@ jobs:
           run: |
             set -uexo pipefail
 
+            pacman-key --init
+            pacman-key --populate archlinuxarm
             pacman-key --lsign 68B3537F39A313B3E574D06777193F152BDBE6A6
 
             if ! .github/ci-scripts/check-package-published.sh PKGBUILDs/${{matrix.package}}; then
