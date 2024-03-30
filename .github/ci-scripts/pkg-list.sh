@@ -4,17 +4,18 @@ set -uexo pipefail
 # This script determines the list of aarch64 packages that should be built and published to the msm8916 package repo.
 # By default it filters out packages built natively. If $NATIVE_ONLY is set, it only outputs packages built natively.
 
-packages=$(ls -1 PKGBUILDs)
+pkgbuilds=$(find PKGBUILDs/ -name 'PKGBUILD')
 
 echo '{"package":['
 first=1
-for package in $packages; do
-    if [[ ! -f PKGBUILDs/$package/.SRCINFO ]]; then
+for pkgbuild in $pkgbuilds; do
+    dir=$(dirname $pkgbuild)
+    if [[ ! -f $dir/.SRCINFO ]]; then
         continue
     fi
-    if [[ -z "${NATIVE_ONLY:-}" ]] && [[ -f PKGBUILDs/$package/.nativebuild ]]; then
+    if [[ -z "${NATIVE_ONLY:-}" ]] && [[ -f $dir/.nativebuild ]]; then
         continue
-    elif [[ -n "${NATIVE_ONLY:-}" ]] && [[ ! -f PKGBUILDs/$package/.nativebuild ]]; then
+    elif [[ -n "${NATIVE_ONLY:-}" ]] && [[ ! -f $dir/.nativebuild ]]; then
         continue
     fi
 
@@ -23,7 +24,7 @@ for package in $packages; do
     else
         echo -n ","
     fi
-    echo -n "\"$package\""
+    echo -n "\"${dir#PKGBUILDs/}\""
 done
 
 echo ']}'
