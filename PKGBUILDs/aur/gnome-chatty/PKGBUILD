@@ -31,6 +31,7 @@ arch=(
 depends=(
   evolution-data-server
   feedbackd
+  gnome-desktop-4
   libadwaita
   libhandy
   libmm-glib
