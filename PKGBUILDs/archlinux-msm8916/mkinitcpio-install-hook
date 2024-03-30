@@ -1,0 +1,6 @@
+#!/bin/bash
+
+build() {
+    # Add all msm8916 generated panels. autodetect hook will ensure only the necessary one ends up in initramfs.
+    add_checked_modules /drivers/gpu/drm/panel/msm8916-generated/
+}

@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="leds", KERNEL=="tm2-touchkey", ATTR{brightness}="0"
