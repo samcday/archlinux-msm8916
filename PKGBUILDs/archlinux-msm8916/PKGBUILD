@@ -1,6 +1,6 @@
 pkgname=archlinux-msm8916
 pkgver=1
-pkgrel=6
+pkgrel=7
 pkgdesc="Arch Linux on MSM8916"
 arch=(any)
 url="https://github.com/samcday/archlinux-msm8916"
@@ -10,18 +10,22 @@ depends=(
     msm-firmware-loader
 )
 source=(
+    90-feedbackd.rules
+    90-tm2-touchkey-leds.rules
     dracut.conf
     mkinitcpio-dropin.conf
     mkinitcpio-install-hook
-    tm2-touchkey-leds.rules
 )
-sha256sums=('2ed979b8ade891895889f43819acefa39d13d9fb1c2cbcc415d22b87ea2c7a75'
+sha256sums=('9b29472ea1c04114413e2d16ccf4dc3de09839db9c5ee2b88f2d0c70b05db034'
+            'e67f52aa0e7c1d8e276485f134bac91ad10c3410f17c1d5f5e6d429e2b2a5444'
+            '2ed979b8ade891895889f43819acefa39d13d9fb1c2cbcc415d22b87ea2c7a75'
             '9a23e4a9e39d3c6a4a6b458e02183ff448fdfb5c14e5cc531623840fec8fe5a4'
-            '30f88ed7768b2b4d2976b1b3bf7ee1adfa3eac2b0507fca4afe8ea1c7f5b823a'
-            'e67f52aa0e7c1d8e276485f134bac91ad10c3410f17c1d5f5e6d429e2b2a5444')
+            '30f88ed7768b2b4d2976b1b3bf7ee1adfa3eac2b0507fca4afe8ea1c7f5b823a')
 
 package() {
-    install -D -m644 tm2-touchkey-leds.rules ${pkgdir}/usr/lib/udev/rules.d/tm2-touchkey-leds.rules
+    install -D -m644 90-tm2-touchkey-leds.rules ${pkgdir}/usr/lib/udev/rules.d/90-tm2-touchkey-leds.rules
+    install -D -m644 90-feedbackd.rules ${pkgdir}/usr/lib/udev/rules.d/90-feedbackd.rules
+
     install -D -m644 dracut.conf ${pkgdir}/usr/lib/dracut/dracut.conf.d/msm8916.conf
     install -D -m644 mkinitcpio-dropin.conf ${pkgdir}/etc/mkinitcpio.conf.d/msm8916.conf
     install -D -m644 mkinitcpio-install-hook ${pkgdir}/usr/lib/initcpio/install/msm8916

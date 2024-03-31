@@ -1,19 +1,21 @@
 pkgbase = archlinux-msm8916
 	pkgdesc = Arch Linux on MSM8916
 	pkgver = 1
-	pkgrel = 5
+	pkgrel = 7
 	url = https://github.com/samcday/archlinux-msm8916
 	arch = any
 	license = MIT
 	depends = linux-firmware-qcom
 	depends = msm-firmware-loader
+	source = 90-feedbackd.rules
+	source = 90-tm2-touchkey-leds.rules
 	source = dracut.conf
 	source = mkinitcpio-dropin.conf
 	source = mkinitcpio-install-hook
-	source = tm2-touchkey-leds.rules
+	sha256sums = 9b29472ea1c04114413e2d16ccf4dc3de09839db9c5ee2b88f2d0c70b05db034
+	sha256sums = e67f52aa0e7c1d8e276485f134bac91ad10c3410f17c1d5f5e6d429e2b2a5444
 	sha256sums = 2ed979b8ade891895889f43819acefa39d13d9fb1c2cbcc415d22b87ea2c7a75
 	sha256sums = 9a23e4a9e39d3c6a4a6b458e02183ff448fdfb5c14e5cc531623840fec8fe5a4
 	sha256sums = 30f88ed7768b2b4d2976b1b3bf7ee1adfa3eac2b0507fca4afe8ea1c7f5b823a
-	sha256sums = e67f52aa0e7c1d8e276485f134bac91ad10c3410f17c1d5f5e6d429e2b2a5444
 
 pkgname = archlinux-msm8916
