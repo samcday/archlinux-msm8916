@@ -12,6 +12,7 @@ depends=(
 source=(
     90-feedbackd.rules
     90-tm2-touchkey-leds.rules
+    adreno-gtk-workaround.sh
     dracut.conf
     mkinitcpio-dropin.conf
     mkinitcpio-install-hook
