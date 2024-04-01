@@ -2,8 +2,8 @@ The msm8916 modem has incomplete support.
 
 As of now:
 
- * SMS can be sent and received, however note that a bug in ModemManager means that you'll receive short text messages twice (#23)
- * Phone calls are not yet supported (#21)
+ * SMS can be sent and received, however note that a bug in ModemManager means that you'll receive short text messages twice ([#23](/samcday/archlinux-msm8916/issues/23))
+ * Phone calls are not yet supported ([#21](/samcday/archlinux-msm8916/issues/21))
  * Data has not been tested, it's suggested in postmarketOS wiki that 4G is not supported.
 
 ## Installation
